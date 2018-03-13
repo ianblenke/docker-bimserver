@@ -1,0 +1,25 @@
+version: '2.1'
+
+x-logging:
+  &default-logging
+  options:
+    max-size: '12m'
+    max-file: '5'
+  driver: json-file
+
+services:
+
+  bimserver:  
+    build:
+      context: .
+      args:
+        BIMSERVER_VERSION: ${BIMSERVER_VERSION}
+    image: sofwerx/bimserver
+    container_name: bimserver
+    hostname: bimserver
+    logging: *default-logging
+    environment:
+      CATALINA_OPTS: "-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+      TOMCAT_USER: ${TOMCAT_USER}
+      TOMCAT_PASSWORD: ${TOMCAT_PASSWORD}
+
